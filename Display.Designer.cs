@@ -112,7 +112,6 @@
             this.Controls.Add(this.outputBox);
             this.Controls.Add(this.inputBox);
             this.Controls.Add(this.inputButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.HelpButton = true;
             this.Name = "Display";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
