@@ -68,5 +68,37 @@ namespace offside_checker.Services
 
             return team;
         }
+
+        public Player DetectBall()
+        {
+            var ballMask = new Mat();
+            var lowerBlack = new ScalarArray(new MCvScalar(0, 0, 0));
+            var upperBlack = new ScalarArray(new MCvScalar(50, 50, 50));
+            CvInvoke.InRange(_originalImage, lowerBlack, upperBlack, ballMask);
+
+            var hierarchy = new Mat();
+            var contours = new VectorOfVectorOfPoint();
+
+            CvInvoke.FindContours(
+                ballMask,
+                contours,
+                hierarchy,
+                RetrType.External,
+                ChainApproxMethod.ChainApproxSimple);
+
+            if (contours.Size > 0)
+            {
+                var moments = CvInvoke.Moments(contours[0]);
+                return new Player
+                {
+                    Point = new Point(
+                        (int)(moments.M10 / moments.M00),
+                        (int)(moments.M01 / moments.M00)),
+                    Radius = Math.Sqrt(CvInvoke.ContourArea(contours[0]) / Math.PI)
+                };
+            }
+
+            throw new Exception("Ball not found in image");
+        }
     }
 }
