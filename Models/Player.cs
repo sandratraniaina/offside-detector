@@ -11,7 +11,7 @@ namespace offside_checker.Models
     {
         private Point point;
         private Double radius;
-        private bool isOffside;
+        private bool isOffside = false;
 
         public double Radius { get => radius; set => radius = value; }
         public Point Point { get => point; set => point = value; }
