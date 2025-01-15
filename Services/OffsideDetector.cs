@@ -10,7 +10,7 @@ namespace offside_checker.Services
 {
     public class OffsideDetector
     {
-        public void DetectOffside(List<Team> teams, Point ballPosition)
+        public void DetectOffside(List<Team> teams, Point ballPosition, double rightmostXPosition)
         {
             // Find the player nearest to the ball
             var nearestPlayer = teams
@@ -18,22 +18,36 @@ namespace offside_checker.Services
                 .OrderBy(player => GetDistance(player.Point, ballPosition))
                 .First();
 
-            // Determine the goal direction
+            // Find the rightmost player across all teams
+            var rightmostPlayer = teams
+                .SelectMany(team => team.Players)
+                .OrderByDescending(player => player.Point.X)
+                .First();
+            // Determine which team has the rightmost player
+            var teamWithRightmostPlayer = teams.First(team => team.Players.Contains(rightmostPlayer));
+            var otherTeam = teams.First(team => !team.Players.Contains(rightmostPlayer));
+
+            // Set goalkeepers
+            teamWithRightmostPlayer.GoalKeeper = rightmostPlayer;
+            otherTeam.GoalKeeper = GetLeftmostPlayer(otherTeam);
+
+            // Determine attacking team
             var attackingTeam = teams.First(team => team.Players.Contains(nearestPlayer));
             var defendingTeam = teams.First(team => !team.Players.Contains(nearestPlayer));
-            bool isAttackingRight = nearestPlayer.Point.X > ballPosition.X; // Assuming X-axis indicates left-to-right field
 
-            // Find the last defender
-            Player lastDefender = defendingTeam.Players
-                .OrderBy(player => isAttackingRight ? -player.Point.X : player.Point.X)
-                .First();
+            // Find the last defender for the defending team
+            var lastDefender = defendingTeam.Players
+                .Where(player => player != defendingTeam.GoalKeeper) // Exclude goalkeeper
+                .OrderBy(player => attackingTeam == teamWithRightmostPlayer ? +player.Point.X : -player.Point.X)
+                .FirstOrDefault();
 
-            // Detect offside for the attacking team
+
+            // Check offside for attacking team players
             foreach (var player in attackingTeam.Players)
             {
-                if (player != nearestPlayer) // Ignore ball holder
+                if (player != nearestPlayer) // Ignore the ball holder
                 {
-                    // Check if the player is beyond the last defender
+                    bool isAttackingRight = attackingTeam != teamWithRightmostPlayer;
                     if (isAttackingRight && player.Point.X > lastDefender.Point.X)
                     {
                         player.IsOffside = true;
@@ -46,11 +60,16 @@ namespace offside_checker.Services
             }
         }
 
-        // Helper to calculate Euclidean distance
         private double GetDistance(Point p1, Point p2)
         {
             return Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2));
         }
 
+        private Player GetLeftmostPlayer(Team team)
+        {
+            return team.Players
+                .OrderBy(player => player.Point.X)
+                .First();
+        }
     }
 }
