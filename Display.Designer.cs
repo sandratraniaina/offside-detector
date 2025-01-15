@@ -40,46 +40,50 @@
             // 
             // inputButton
             // 
-            this.inputButton.Location = new System.Drawing.Point(531, 25);
+            this.inputButton.Location = new System.Drawing.Point(759, 67);
             this.inputButton.Name = "inputButton";
-            this.inputButton.Size = new System.Drawing.Size(75, 23);
+            this.inputButton.Size = new System.Drawing.Size(130, 34);
             this.inputButton.TabIndex = 0;
-            this.inputButton.Text = "Add file";
+            this.inputButton.Text = "Import Image";
             this.inputButton.UseVisualStyleBackColor = true;
             this.inputButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // inputBox
             // 
             this.inputBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.inputBox.Location = new System.Drawing.Point(54, 181);
+            this.inputBox.ErrorImage = null;
+            this.inputBox.Location = new System.Drawing.Point(115, 188);
             this.inputBox.Name = "inputBox";
-            this.inputBox.Size = new System.Drawing.Size(477, 421);
+            this.inputBox.Size = new System.Drawing.Size(660, 440);
+            this.inputBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.inputBox.TabIndex = 1;
             this.inputBox.TabStop = false;
+            this.inputBox.Click += new System.EventHandler(this.inputBox_Click);
             // 
             // outputBox
             // 
             this.outputBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.outputBox.Location = new System.Drawing.Point(770, 181);
+            this.outputBox.Location = new System.Drawing.Point(856, 188);
             this.outputBox.Name = "outputBox";
-            this.outputBox.Size = new System.Drawing.Size(477, 421);
+            this.outputBox.Size = new System.Drawing.Size(660, 440);
+            this.outputBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.outputBox.TabIndex = 2;
             this.outputBox.TabStop = false;
             // 
             // outputButton
             // 
-            this.outputButton.Location = new System.Drawing.Point(664, 25);
+            this.outputButton.Location = new System.Drawing.Point(759, 117);
             this.outputButton.Name = "outputButton";
-            this.outputButton.Size = new System.Drawing.Size(75, 23);
+            this.outputButton.Size = new System.Drawing.Size(130, 37);
             this.outputButton.TabIndex = 3;
-            this.outputButton.Text = "Output";
+            this.outputButton.Text = "Process Image";
             this.outputButton.UseVisualStyleBackColor = true;
             this.outputButton.Click += new System.EventHandler(this.button2_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(262, 147);
+            this.label1.Location = new System.Drawing.Point(422, 147);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(76, 16);
             this.label1.TabIndex = 4;
@@ -89,7 +93,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(966, 147);
+            this.label2.Location = new System.Drawing.Point(1167, 147);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(86, 16);
             this.label2.TabIndex = 5;
@@ -100,15 +104,19 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1301, 741);
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
+            this.ClientSize = new System.Drawing.Size(1661, 741);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.outputButton);
             this.Controls.Add(this.outputBox);
             this.Controls.Add(this.inputBox);
             this.Controls.Add(this.inputButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.HelpButton = true;
             this.Name = "Display";
-            this.Text = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Offside detector";
             ((System.ComponentModel.ISupportInitialize)(this.inputBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.outputBox)).EndInit();
             this.ResumeLayout(false);

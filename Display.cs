@@ -17,7 +17,7 @@ namespace offside_checker
 
         private String _imagePath;
         private ImageProcessor _imageProcessor;
-        private OffsideDetector _offsideDetector;
+        private OffsideDetector _offsideDetector = new OffsideDetector();
 
         public Display()
         {
@@ -45,9 +45,13 @@ namespace offside_checker
             var ballPosition = _imageProcessor.DetectBall();
 
             //string message = $"Here are the teams: teamA: {teamA.Players.Count}, teamB: {teamB.Players.Count}";
-            string message = $"Here is the ball: {ballPosition.Point.X}";
+            //string message = $"Here is the ball: {ballPosition.Point.X}";
 
-            MessageBox.Show(message, "Message Title", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //MessageBox.Show(message, "Message Title", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            _offsideDetector.DetectOffside(new List<Team> { teamB, teamA }, ballPosition); 
+            var image = _imageProcessor.DrawOffsideText(teamA, teamB);
+            this.outputBox.Image = image;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -56,6 +60,11 @@ namespace offside_checker
         }
 
         private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void inputBox_Click(object sender, EventArgs e)
         {
 
         }
