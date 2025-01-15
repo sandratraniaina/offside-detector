@@ -98,16 +98,43 @@ namespace offside_checker.Services
             if (contours.Size > 0)
             {
                 var moments = CvInvoke.Moments(contours[0]);
-                return new Player
-                {
-                    Point = new Point(
+                return new Point(
                         (int)(moments.M10 / moments.M00),
-                        (int)(moments.M01 / moments.M00)),
-                    Radius = Math.Sqrt(CvInvoke.ContourArea(contours[0]) / Math.PI)
-                };
+                        (int)(moments.M01 / moments.M00));
             }
 
             throw new Exception("Ball not found in image");
         }
+
+        public Bitmap DrawOffsideText(Team teamA, Team teamB)
+        {
+            // Create a copy of the original image to draw on
+            var annotatedImage = _originalImage.Clone();
+            teamA.Players.AddRange(teamB.Players);
+            // Loop through both teams' players
+            foreach (var player in teamA.Players)
+            {
+                if (player.IsOffside)
+                {
+                    // Choose a text color based on offside status
+                    var textColor = new MCvScalar(0, 0, 255); // Red for offside
+                    var position = player.Point;
+
+                    // Draw the "OFF" text next to the player
+                    CvInvoke.PutText(
+                        annotatedImage,
+                        "OFF",
+                        new Point(position.X - 20, position.Y - 20),  // Position slightly above and to the left of the player
+                        FontFace.HersheySimplex, // Font style
+                        0.5,                    // Font scale
+                        textColor,              // Color
+                        2);                     // Thickness of the text
+                }
+            }
+
+            // Return the annotated image
+            return annotatedImage.ToBitmap();
+        }
+
     }
 }
