@@ -11,10 +11,15 @@ namespace offside_checker.Models
     {
         private Point point;
         private Double radius;
-        private bool isOffside = false;
+        private PlayerStatus playerStatus = PlayerStatus.NEUTRAL;
 
         public double Radius { get => radius; set => radius = value; }
         public Point Point { get => point; set => point = value; }
-        public bool IsOffside { get => isOffside; set => isOffside = value; }
+        public PlayerStatus PlayerStatus { get => playerStatus; set => playerStatus = value; }
+    }
+
+    public enum PlayerStatus
+    {
+        OFFSIDE, NORMAL, NEUTRAL
     }
 }
