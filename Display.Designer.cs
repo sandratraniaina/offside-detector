@@ -53,16 +53,16 @@
             this.inputBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.inputBox.Location = new System.Drawing.Point(54, 181);
             this.inputBox.Name = "inputBox";
-            this.inputBox.Size = new System.Drawing.Size(1177, 548);
+            this.inputBox.Size = new System.Drawing.Size(477, 421);
             this.inputBox.TabIndex = 1;
             this.inputBox.TabStop = false;
             // 
             // outputBox
             // 
             this.outputBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.outputBox.Location = new System.Drawing.Point(1237, 181);
+            this.outputBox.Location = new System.Drawing.Point(770, 181);
             this.outputBox.Name = "outputBox";
-            this.outputBox.Size = new System.Drawing.Size(10, 421);
+            this.outputBox.Size = new System.Drawing.Size(477, 421);
             this.outputBox.TabIndex = 2;
             this.outputBox.TabStop = false;
             // 
