@@ -78,7 +78,7 @@ namespace offside_checker.Services
             return team;
         }
 
-        public Player DetectBall()
+        public Point DetectBall()
         {
             var ballMask = new Mat();
             var lowerBlack = new ScalarArray(new MCvScalar(0, 0, 0));
