@@ -28,53 +28,53 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.inputButton = new System.Windows.Forms.Button();
             this.inputBox = new System.Windows.Forms.PictureBox();
             this.outputBox = new System.Windows.Forms.PictureBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.outputButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.inputBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.outputBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
+            // inputButton
             // 
-            this.button1.Location = new System.Drawing.Point(531, 25);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Add file";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.inputButton.Location = new System.Drawing.Point(531, 25);
+            this.inputButton.Name = "inputButton";
+            this.inputButton.Size = new System.Drawing.Size(75, 23);
+            this.inputButton.TabIndex = 0;
+            this.inputButton.Text = "Add file";
+            this.inputButton.UseVisualStyleBackColor = true;
+            this.inputButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // inputBox
             // 
             this.inputBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.inputBox.Location = new System.Drawing.Point(54, 181);
             this.inputBox.Name = "inputBox";
-            this.inputBox.Size = new System.Drawing.Size(477, 421);
+            this.inputBox.Size = new System.Drawing.Size(1177, 548);
             this.inputBox.TabIndex = 1;
             this.inputBox.TabStop = false;
             // 
             // outputBox
             // 
             this.outputBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.outputBox.Location = new System.Drawing.Point(770, 181);
+            this.outputBox.Location = new System.Drawing.Point(1237, 181);
             this.outputBox.Name = "outputBox";
-            this.outputBox.Size = new System.Drawing.Size(477, 421);
+            this.outputBox.Size = new System.Drawing.Size(10, 421);
             this.outputBox.TabIndex = 2;
             this.outputBox.TabStop = false;
             // 
-            // button2
+            // outputButton
             // 
-            this.button2.Location = new System.Drawing.Point(664, 25);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Output";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.outputButton.Location = new System.Drawing.Point(664, 25);
+            this.outputButton.Name = "outputButton";
+            this.outputButton.Size = new System.Drawing.Size(75, 23);
+            this.outputButton.TabIndex = 3;
+            this.outputButton.Text = "Output";
+            this.outputButton.UseVisualStyleBackColor = true;
+            this.outputButton.Click += new System.EventHandler(this.button2_Click);
             // 
             // label1
             // 
@@ -100,13 +100,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1301, 729);
+            this.ClientSize = new System.Drawing.Size(1301, 741);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.outputButton);
             this.Controls.Add(this.outputBox);
             this.Controls.Add(this.inputBox);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.inputButton);
             this.Name = "Display";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.inputBox)).EndInit();
@@ -118,10 +118,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button inputButton;
         private System.Windows.Forms.PictureBox inputBox;
         private System.Windows.Forms.PictureBox outputBox;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button outputButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
     }

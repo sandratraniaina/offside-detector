@@ -20,7 +20,7 @@ namespace offside_checker.Services
                 throw new ArgumentException("Failed to load image", nameof(imagePath));
         }
 
-        public Team DetectTeam(Bgr minColor, Bgr maxColor)
+        public Team DetectTeam(Hsv minColor, Hsv maxColor)
         {
             var team = new Team
             {
@@ -30,35 +30,44 @@ namespace offside_checker.Services
             };
 
             var hsvImage = new Mat();
-            CvInvoke.CvtColor(_originalImage, hsvImage, ColorConversion.Bgr2Hsv);
+            CvInvoke.CvtColor(_originalImage, hsvImage, ColorConversion.Bgr2Hsv);  // Convert to HSV for better color detection
 
-            var mask = new Mat();
-            CvInvoke.InRange(hsvImage, new ScalarArray(new MCvScalar(minColor.Blue, minColor.Green, minColor.Red)), new ScalarArray(new MCvScalar(maxColor.Blue, maxColor.Green, maxColor.Red)), mask);
+            // Create a mask for the team using the provided Hsv range
+            var teamMask = new Mat();
+            CvInvoke.InRange(
+                hsvImage,
+                new ScalarArray(new MCvScalar(minColor.Hue, minColor.Satuation, minColor.Value)),
+                new ScalarArray(new MCvScalar(maxColor.Hue, maxColor.Satuation, maxColor.Value)),
+                teamMask);
 
+            // Apply morphological operations to clean up the mask
+            var kernel = CvInvoke.GetStructuringElement(ElementShape.Rectangle, new Size(3, 3), new Point(-1, -1));
+            CvInvoke.MorphologyEx(teamMask, teamMask, MorphOp.Open, kernel, new Point(-1, -1), 1, BorderType.Default, new MCvScalar());
+            CvInvoke.MorphologyEx(teamMask, teamMask, MorphOp.Close, kernel, new Point(-1, -1), 1, BorderType.Default, new MCvScalar());
+
+            // Find contours (players) in the mask
             var hierarchy = new Mat();
             var contours = new VectorOfVectorOfPoint();
-
-            var kernel = CvInvoke.GetStructuringElement(ElementShape.Rectangle, new Size(3, 3), new Point(-1, -1));
-            CvInvoke.MorphologyEx(mask, mask, MorphOp.Open, kernel, new Point(-1, -1), 1, BorderType.Default, new MCvScalar());
-            CvInvoke.MorphologyEx(mask, mask, MorphOp.Close, kernel, new Point(-1, -1), 1, BorderType.Default, new MCvScalar());
-
             CvInvoke.FindContours(
-                mask,
+                teamMask,
                 contours,
                 hierarchy,
                 RetrType.External,
                 ChainApproxMethod.ChainApproxSimple);
 
+            // Add players based on the contours
             for (int i = 0; i < contours.Size; i++)
             {
+                // Filter small contours that might be noise
                 double area = CvInvoke.ContourArea(contours[i]);
-                if (area < 100) continue; // Filter out small noise
+                if (area < 100) continue;  // Adjust the threshold based on your image size
 
                 var moments = CvInvoke.Moments(contours[i]);
                 var centerX = (int)(moments.M10 / moments.M00);
                 var centerY = (int)(moments.M01 / moments.M00);
-
                 var radius = Math.Sqrt(area / Math.PI);
+
+                // Add the detected player to the team
                 team.Players.Add(new Player
                 {
                     Point = new Point(centerX, centerY),
