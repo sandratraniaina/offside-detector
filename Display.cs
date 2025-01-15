@@ -42,7 +42,10 @@ namespace offside_checker
             var teamA = _imageProcessor.DetectTeam(new Emgu.CV.Structure.Hsv(0, 200, 200), new Emgu.CV.Structure.Hsv(10, 255, 255));
             var teamB = _imageProcessor.DetectTeam(new Emgu.CV.Structure.Hsv(100, 150, 50), new Emgu.CV.Structure.Hsv(140, 255, 255));
 
-            string message = $"Here are the teams: teamA: {teamA.Players.Count}, teamB: {teamB.Players.Count}";
+            var ballPosition = _imageProcessor.DetectBall();
+
+            //string message = $"Here are the teams: teamA: {teamA.Players.Count}, teamB: {teamB.Players.Count}";
+            string message = $"Here is the ball: {ballPosition.Point.X}";
 
             MessageBox.Show(message, "Message Title", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
