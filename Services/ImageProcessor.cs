@@ -185,7 +185,17 @@ namespace offside_detector.Services
             return mat.ToBitmap();
         }
 
-        
+        public Bitmap DrawTeamArrow(Bitmap bitmap, Team team, Point ballPosition)
+        {
+            foreach (Player player in team.Players)
+            {
+                if (player.PlayerStatus == PlayerStatus.NORMAL)
+                {
+                    bitmap = DrawArrow(bitmap, ballPosition, player.Point);
+                }
+            }
+            return bitmap;
+        }
 
         public Bitmap DrawLastDefenderLine(Team team, Bitmap bitmap)
         {
