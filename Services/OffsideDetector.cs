@@ -50,12 +50,19 @@ namespace offside_checker.Services
                     bool isAttackingRight = attackingTeam != teamWithRightmostPlayer;
                     if (isAttackingRight && player.Point.X > lastDefender.Point.X)
                     {
-                        player.IsOffside = true;
+                        player.PlayerStatus = PlayerStatus.OFFSIDE;
                     }
                     else if (!isAttackingRight && player.Point.X < lastDefender.Point.X)
                     {
-                        player.IsOffside = true;
+                        player.PlayerStatus = PlayerStatus.OFFSIDE;
+                    }else if (isAttackingRight && player.Point.X >= nearestPlayer.Point.X)
+                    {
+                        player.PlayerStatus = PlayerStatus.NORMAL;
+                    }else if (!isAttackingRight && player.Point.X <= nearestPlayer.Point.X)
+                    {
+                        player.PlayerStatus = PlayerStatus.NORMAL;
                     }
+
                 }
             }
         }
