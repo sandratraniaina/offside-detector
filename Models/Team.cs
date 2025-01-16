@@ -14,11 +14,13 @@ namespace offside_detector.Models
         private Hsv maxColor;
         private Player goalKeeper;
         private Player playerWithBall;
+        private Player lastDefender;
 
         public List<Player> Players { get => _players; set => _players = value; }
         public Player GoalKeeper { get => goalKeeper; set => goalKeeper = value; }
         public Player PlayerWithBall { get => playerWithBall; set => playerWithBall = value; }
         public Hsv MinColor { get => minColor; set => minColor = value; }
         public Hsv MaxColor { get => maxColor; set => maxColor = value; }
+        public Player LastDefender { get => lastDefender; set => lastDefender = value; }
     }
 }
