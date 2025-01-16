@@ -112,7 +112,7 @@ namespace offside_detector.Services
             var annotatedImage = _originalImage.Clone();
             teamA.Players.AddRange(teamB.Players);
 
-            var normalColor = new MCvScalar(255, 255, 255);
+            var normalColor = new MCvScalar(0, 0, 0);
             var offsideColor = new MCvScalar(10, 10, 255);
             // Loop through both teams' players
             foreach (var player in teamA.Players)
@@ -121,14 +121,6 @@ namespace offside_detector.Services
                 {
                     var position = player.Point;
 
-                    //CvInvoke.PutText(
-                    //    annotatedImage,
-                    //    player.PlayerStatus.ToString(),
-                    //    new Point(position.X - 50, position.Y - 25),  // Position slightly above and to the left of the player
-                    //    FontFace.HersheySimplex, // Font style
-                    //    1,                    // Font scale
-                    //    textColor,              // Color
-                    //    4);
                     CvInvoke.Circle(annotatedImage, position, Convert.ToInt32(player.Radius + 20), offsideColor, thickness: 4);
                 } else if(player.PlayerStatus == PlayerStatus.NORMAL)
                 {
