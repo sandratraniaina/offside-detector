@@ -40,14 +40,17 @@ namespace offside_detector.Services
                 .Where(player => player != defendingTeam.GoalKeeper) // Exclude goalkeeper
                 .OrderBy(player => attackingTeam == teamWithRightmostPlayer ? +player.Point.X : -player.Point.X)
                 .FirstOrDefault();
+            defendingTeam.LastDefender = lastDefender;
 
+            bool isAttackingRight = attackingTeam != teamWithRightmostPlayer;
 
+            defendingTeam.IsAttackRight = isAttackingRight;
+            attackingTeam.IsAttackRight = isAttackingRight;
             // Check offside for attacking team players
             foreach (var player in attackingTeam.Players)
             {
                 if (player != nearestPlayer) // Ignore the ball holder
                 {
-                    bool isAttackingRight = attackingTeam != teamWithRightmostPlayer;
                     if (isAttackingRight && player.Point.X > lastDefender.Point.X)
                     {
                         player.PlayerStatus = PlayerStatus.OFFSIDE;
