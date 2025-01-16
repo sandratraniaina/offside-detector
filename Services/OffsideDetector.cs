@@ -40,6 +40,7 @@ namespace offside_detector.Services
                 .Where(player => player != defendingTeam.GoalKeeper) // Exclude goalkeeper
                 .OrderBy(player => attackingTeam == teamWithRightmostPlayer ? +player.Point.X : -player.Point.X)
                 .FirstOrDefault();
+            defendingTeam.LastDefender = lastDefender;
 
 
             // Check offside for attacking team players
