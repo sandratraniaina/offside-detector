@@ -60,16 +60,6 @@ namespace offside_checker
             this.outputBox.Image = image;
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void inputBox_Click(object sender, EventArgs e)
         {
 

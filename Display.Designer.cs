@@ -40,7 +40,7 @@
             // 
             // inputButton
             // 
-            this.inputButton.Location = new System.Drawing.Point(759, 67);
+            this.inputButton.Location = new System.Drawing.Point(628, 56);
             this.inputButton.Name = "inputButton";
             this.inputButton.Size = new System.Drawing.Size(130, 34);
             this.inputButton.TabIndex = 0;
@@ -52,7 +52,7 @@
             // 
             this.inputBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.inputBox.ErrorImage = null;
-            this.inputBox.Location = new System.Drawing.Point(115, 188);
+            this.inputBox.Location = new System.Drawing.Point(12, 188);
             this.inputBox.Name = "inputBox";
             this.inputBox.Size = new System.Drawing.Size(660, 440);
             this.inputBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -63,7 +63,7 @@
             // outputBox
             // 
             this.outputBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.outputBox.Location = new System.Drawing.Point(856, 188);
+            this.outputBox.Location = new System.Drawing.Point(710, 188);
             this.outputBox.Name = "outputBox";
             this.outputBox.Size = new System.Drawing.Size(660, 440);
             this.outputBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -72,7 +72,7 @@
             // 
             // outputButton
             // 
-            this.outputButton.Location = new System.Drawing.Point(759, 117);
+            this.outputButton.Location = new System.Drawing.Point(628, 106);
             this.outputButton.Name = "outputButton";
             this.outputButton.Size = new System.Drawing.Size(130, 37);
             this.outputButton.TabIndex = 3;
@@ -83,29 +83,27 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(422, 147);
+            this.label1.Location = new System.Drawing.Point(304, 147);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(76, 16);
             this.label1.TabIndex = 4;
             this.label1.Text = "Input Image";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1167, 147);
+            this.label2.Location = new System.Drawing.Point(997, 147);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(86, 16);
             this.label2.TabIndex = 5;
             this.label2.Text = "Output Image";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // Display
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
-            this.ClientSize = new System.Drawing.Size(1661, 741);
+            this.ClientSize = new System.Drawing.Size(1382, 741);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.outputButton);
