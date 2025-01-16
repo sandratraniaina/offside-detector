@@ -113,7 +113,7 @@ namespace offside_detector.Services
             teamA.Players.AddRange(teamB.Players);
 
             var normalColor = new MCvScalar(255, 255, 255);
-            var offsideColor = new MCvScalar(255, 0, 0);
+            var offsideColor = new MCvScalar(10, 10, 255);
             // Loop through both teams' players
             foreach (var player in teamA.Players)
             {
@@ -129,12 +129,12 @@ namespace offside_detector.Services
                     //    1,                    // Font scale
                     //    textColor,              // Color
                     //    4);
-                    CvInvoke.Circle(annotatedImage, position, Convert.ToInt32(player.Radius + 20), offsideColor, thickness: 2);
+                    CvInvoke.Circle(annotatedImage, position, Convert.ToInt32(player.Radius + 20), offsideColor, thickness: 4);
                 } else if(player.PlayerStatus == PlayerStatus.NORMAL)
                 {
                     var position = player.Point;
 
-                    CvInvoke.Circle(annotatedImage, position, Convert.ToInt32(player.Radius + 20), normalColor, thickness: 2);
+                    CvInvoke.Circle(annotatedImage, position, Convert.ToInt32(player.Radius + 20), normalColor, thickness: 4);
                 }
             }
 
