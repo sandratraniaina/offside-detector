@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AFD41946-494D-4990-90C7-BABB37F60402}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>offside_checker</RootNamespace>
-    <AssemblyName>offside-checker</AssemblyName>
+    <RootNamespace>offside_detector</RootNamespace>
+    <AssemblyName>offside_detector</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -69,6 +69,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

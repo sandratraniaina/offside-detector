@@ -1,5 +1,5 @@
-﻿using offside_checker.Services;
-using offside_checker.Models;
+﻿using offside_detector.Services;
+using offside_detector.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

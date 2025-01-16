@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace offside_checker.Models
+namespace offside_detector.Models
 {
     public class Player
     {

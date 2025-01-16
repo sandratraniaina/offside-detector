@@ -1,4 +1,4 @@
-﻿using offside_checker.Models;
+﻿using offside_detector.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace offside_checker.Services
+namespace offside_detector.Services
 {
     public class OffsideDetector
     {

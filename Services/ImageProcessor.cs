@@ -2,12 +2,12 @@
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
-using offside_checker.Models;
+using offside_detector.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace offside_checker.Services
+namespace offside_detector.Services
 {
     public class ImageProcessor
     {
