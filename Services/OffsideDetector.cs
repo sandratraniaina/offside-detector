@@ -58,10 +58,10 @@ namespace offside_detector.Services
                     else if (!isAttackingRight && player.Point.X < lastDefender.Point.X)
                     {
                         player.PlayerStatus = PlayerStatus.OFFSIDE;
-                    }else if (isAttackingRight && player.Point.X >= nearestPlayer.Point.X)
+                    }else if (isAttackingRight && player.Point.X >= ballPosition.X)
                     {
                         player.PlayerStatus = PlayerStatus.NORMAL;
-                    }else if (!isAttackingRight && player.Point.X <= nearestPlayer.Point.X)
+                    }else if (!isAttackingRight && player.Point.X <= ballPosition.X)
                     {
                         player.PlayerStatus = PlayerStatus.NORMAL;
                     }
