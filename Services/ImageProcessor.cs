@@ -112,7 +112,7 @@ namespace offside_detector.Services
             var annotatedImage = _originalImage.Clone();
             teamA.Players.AddRange(teamB.Players);
 
-            var normalColor = new MCvScalar(255, 255, 255);
+            var normalColor = new MCvScalar(0, 0, 0);
             var offsideColor = new MCvScalar(10, 10, 255);
             // Loop through both teams' players
             foreach (var player in teamA.Players)
@@ -121,14 +121,6 @@ namespace offside_detector.Services
                 {
                     var position = player.Point;
 
-                    //CvInvoke.PutText(
-                    //    annotatedImage,
-                    //    player.PlayerStatus.ToString(),
-                    //    new Point(position.X - 50, position.Y - 25),  // Position slightly above and to the left of the player
-                    //    FontFace.HersheySimplex, // Font style
-                    //    1,                    // Font scale
-                    //    textColor,              // Color
-                    //    4);
                     CvInvoke.Circle(annotatedImage, position, Convert.ToInt32(player.Radius + 20), offsideColor, thickness: 4);
                 } else if(player.PlayerStatus == PlayerStatus.NORMAL)
                 {
@@ -162,6 +154,39 @@ namespace offside_detector.Services
                 // Convert back to Bitmap
                 return mat.ToBitmap();
             }
+        }
+
+        public Bitmap DrawArrow(Bitmap bitmap, Point startPoint, Point endPoint)
+        {
+            // Convert Bitmap to Emgu CV Mat
+            Mat mat = bitmap.ToMat();
+
+            // Draw the arrowed line
+            CvInvoke.ArrowedLine(
+                mat,
+                startPoint,                      // Starting point (ball position)
+                endPoint,                    // Ending point (player position)
+                new MCvScalar(255, 0, 0),          // Arrow color (blue in BGR format)
+                2,                                 // Thickness of the arrow
+                LineType.AntiAlias,                // Smooth anti-aliased line
+                0,                                 // No fractional shift
+                0.2                                // Arrowhead size relative to line length
+            );
+
+            // Convert Mat back to Bitmap
+            return mat.ToBitmap();
+        }
+
+        public Bitmap DrawTeamArrow(Bitmap bitmap, Team team, Point ballPosition)
+        {
+            foreach (Player player in team.Players)
+            {
+                if (player.PlayerStatus == PlayerStatus.NORMAL)
+                {
+                    bitmap = DrawArrow(bitmap, ballPosition, player.Point);
+                }
+            }
+            return bitmap;
         }
 
         public Bitmap DrawLastDefenderLine(Team team, Bitmap bitmap)

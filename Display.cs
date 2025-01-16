@@ -43,7 +43,7 @@ namespace offside_checker
             var teamB = _imageProcessor.DetectTeam(new Emgu.CV.Structure.Hsv(100, 150, 50), new Emgu.CV.Structure.Hsv(140, 255, 255));
 
             var ballPosition = _imageProcessor.DetectBall();
-
+                
             //string message = $"Here are the teams: teamA: {teamA.Players.Count}, teamB: {teamB.Players.Count}";
             //string message = $"Here is the ball: {ballPosition.Point.X}";
 
@@ -54,6 +54,9 @@ namespace offside_checker
 
             image = _imageProcessor.DrawLastDefenderLine(teamB,  image);
             image = _imageProcessor.DrawLastDefenderLine(teamA,  image);
+
+            image = _imageProcessor.DrawTeamArrow(image, teamA, ballPosition);
+            image = _imageProcessor.DrawTeamArrow(image, teamB, ballPosition);
             this.outputBox.Image = image;
         }
 
