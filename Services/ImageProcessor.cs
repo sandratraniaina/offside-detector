@@ -164,6 +164,29 @@ namespace offside_detector.Services
             }
         }
 
+        public Bitmap DrawArrow(Bitmap bitmap, Point ballPosition, Point playerPosition)
+        {
+            // Convert Bitmap to Emgu CV Mat
+            Mat mat = bitmap.ToMat();
+
+            // Draw the arrowed line
+            CvInvoke.ArrowedLine(
+                mat,
+                ballPosition,                      // Starting point (ball position)
+                playerPosition,                    // Ending point (player position)
+                new MCvScalar(255, 0, 0),          // Arrow color (blue in BGR format)
+                2,                                 // Thickness of the arrow
+                LineType.AntiAlias,                // Smooth anti-aliased line
+                0,                                 // No fractional shift
+                0.2                                // Arrowhead size relative to line length
+            );
+
+            // Convert Mat back to Bitmap
+            return mat.ToBitmap();
+        }
+
+        
+
         public Bitmap DrawLastDefenderLine(Team team, Bitmap bitmap)
         {
             if (team.LastDefender != null)
