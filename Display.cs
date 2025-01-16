@@ -54,6 +54,9 @@ namespace offside_checker
 
             image = _imageProcessor.DrawLastDefenderLine(teamB,  image);
             image = _imageProcessor.DrawLastDefenderLine(teamA,  image);
+
+            image = _imageProcessor.DrawTeamArrow(image, teamA, ballPosition);
+            image = _imageProcessor.DrawTeamArrow(image, teamB, ballPosition);
             this.outputBox.Image = image;
         }
 
