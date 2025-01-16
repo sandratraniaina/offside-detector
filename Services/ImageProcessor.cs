@@ -142,5 +142,27 @@ namespace offside_detector.Services
             return annotatedImage.ToBitmap();
         }
 
+        public Bitmap DrawVerticalLineOnBitmap(Bitmap bitmap, Point startPoint, MCvScalar color, int thickness = 2)
+        {
+            // Convert Bitmap to Mat
+            using (Mat mat = bitmap.ToMat())
+            {
+                // Create end point
+                Point endPoint = new Point(startPoint.X, bitmap.Height);
+
+                // Draw the line
+                CvInvoke.Line(
+                    mat,
+                    startPoint,
+                    endPoint,
+                    color,
+                    thickness
+                );
+
+                // Convert back to Bitmap
+                return mat.ToBitmap();
+            }
+        }
+
     }
 }
