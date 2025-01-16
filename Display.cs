@@ -50,7 +50,7 @@ namespace offside_checker
             //MessageBox.Show(message, "Message Title", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             _offsideDetector.DetectOffside(new List<Team> { teamB, teamA }, ballPosition, Image.FromFile(_imagePath).Width); 
-            var image = _imageProcessor.DrawOffsideText(teamA, teamB);
+            var image = _imageProcessor.DrawPlayerStatus(teamA, teamB);
             this.outputBox.Image = image;
         }
 

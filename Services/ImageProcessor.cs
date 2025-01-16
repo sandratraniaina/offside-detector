@@ -106,29 +106,35 @@ namespace offside_checker.Services
             throw new Exception("Ball not found in image");
         }
 
-        public Bitmap DrawOffsideText(Team teamA, Team teamB)
+        public Bitmap DrawPlayerStatus(Team teamA, Team teamB)
         {
             // Create a copy of the original image to draw on
             var annotatedImage = _originalImage.Clone();
             teamA.Players.AddRange(teamB.Players);
+
+            var normalColor = new MCvScalar(255, 255, 255);
+            var offsideColor = new MCvScalar(255, 0, 0);
             // Loop through both teams' players
             foreach (var player in teamA.Players)
             {
-                if (player.IsOffside)
+                if (player.PlayerStatus == PlayerStatus.OFFSIDE)
                 {
-                    // Choose a text color based on offside status
-                    var textColor = new MCvScalar(0, 0, 255); // Red for offside
                     var position = player.Point;
 
-                    // Draw the "OFF" text next to the player
-                    CvInvoke.PutText(
-                        annotatedImage,
-                        "OFF",
-                        new Point(position.X - 20, position.Y - 20),  // Position slightly above and to the left of the player
-                        FontFace.HersheySimplex, // Font style
-                        0.5,                    // Font scale
-                        textColor,              // Color
-                        2);                     // Thickness of the text
+                    //CvInvoke.PutText(
+                    //    annotatedImage,
+                    //    player.PlayerStatus.ToString(),
+                    //    new Point(position.X - 50, position.Y - 25),  // Position slightly above and to the left of the player
+                    //    FontFace.HersheySimplex, // Font style
+                    //    1,                    // Font scale
+                    //    textColor,              // Color
+                    //    4);
+                    CvInvoke.Circle(annotatedImage, position, Convert.ToInt32(player.Radius + 20), offsideColor, thickness: 2);
+                } else if(player.PlayerStatus == PlayerStatus.NORMAL)
+                {
+                    var position = player.Point;
+
+                    CvInvoke.Circle(annotatedImage, position, Convert.ToInt32(player.Radius + 20), normalColor, thickness: 2);
                 }
             }
 
