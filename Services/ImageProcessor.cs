@@ -164,7 +164,7 @@ namespace offside_detector.Services
             }
         }
 
-        public Bitmap DrawArrow(Bitmap bitmap, Point ballPosition, Point playerPosition)
+        public Bitmap DrawArrow(Bitmap bitmap, Point startPoint, Point endPoint)
         {
             // Convert Bitmap to Emgu CV Mat
             Mat mat = bitmap.ToMat();
@@ -172,8 +172,8 @@ namespace offside_detector.Services
             // Draw the arrowed line
             CvInvoke.ArrowedLine(
                 mat,
-                ballPosition,                      // Starting point (ball position)
-                playerPosition,                    // Ending point (player position)
+                startPoint,                      // Starting point (ball position)
+                endPoint,                    // Ending point (player position)
                 new MCvScalar(255, 0, 0),          // Arrow color (blue in BGR format)
                 2,                                 // Thickness of the arrow
                 LineType.AntiAlias,                // Smooth anti-aliased line
