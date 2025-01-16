@@ -164,5 +164,15 @@ namespace offside_detector.Services
             }
         }
 
+        public Bitmap DrawLastDefenderLine(Team team, Bitmap bitmap)
+        {
+            if (team.LastDefender != null)
+            {
+                return DrawVerticalLineOnBitmap(bitmap, new Point(Convert.ToInt32(team.IsAttackRight ? team.LastDefender.Point.X + team.LastDefender.Radius : team.LastDefender.Point.X - team.LastDefender.Radius), 0), new MCvScalar(0, 194, 234), thickness: 4);
+            } else
+            {
+                return bitmap;
+            }
+        }
     }
 }

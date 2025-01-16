@@ -51,6 +51,9 @@ namespace offside_checker
 
             _offsideDetector.DetectOffside(new List<Team> { teamB, teamA }, ballPosition, Image.FromFile(_imagePath).Width); 
             var image = _imageProcessor.DrawPlayerStatus(teamA, teamB);
+
+            image = _imageProcessor.DrawLastDefenderLine(teamB,  image);
+            image = _imageProcessor.DrawLastDefenderLine(teamA,  image);
             this.outputBox.Image = image;
         }
 
