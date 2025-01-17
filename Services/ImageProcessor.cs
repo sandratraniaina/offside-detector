@@ -80,27 +80,43 @@ namespace offside_detector.Services
 
         public Point DetectBall()
         {
-            var ballMask = new Mat();
-            var lowerBlack = new ScalarArray(new MCvScalar(0, 0, 0));
-            var upperBlack = new ScalarArray(new MCvScalar(50, 50, 50));
-            CvInvoke.InRange(_originalImage, lowerBlack, upperBlack, ballMask);
+            // Convert to HSV color space
+            Mat hsvImage = new Mat();
+            CvInvoke.CvtColor(_originalImage, hsvImage, ColorConversion.Bgr2Hsv);
 
-            var hierarchy = new Mat();
+            // Define lower and upper bounds for ball color in HSV
+            ScalarArray lowerBound = new ScalarArray(new MCvScalar(0, 0, 0)); // Adjust these values as needed
+            ScalarArray upperBound = new ScalarArray(new MCvScalar(180, 255, 50)); // Adjust these values as needed
+
+            // Create a mask for the ball color
+            Mat ballMask = new Mat();
+            CvInvoke.InRange(hsvImage, lowerBound, upperBound, ballMask);
+
+            // Find contours in the mask
             var contours = new VectorOfVectorOfPoint();
+            var hierarchy = new Mat();
+            CvInvoke.FindContours(ballMask, contours, hierarchy, RetrType.External, ChainApproxMethod.ChainApproxSimple);
 
-            CvInvoke.FindContours(
-                ballMask,
-                contours,
-                hierarchy,
-                RetrType.External,
-                ChainApproxMethod.ChainApproxSimple);
-
-            if (contours.Size > 0)
+            // Find the largest contour (assuming it's the ball)
+            double maxArea = 0;
+            int maxIndex = -1;
+            for (int i = 0; i < contours.Size; i++)
             {
-                var moments = CvInvoke.Moments(contours[0]);
-                return new Point(
-                        (int)(moments.M10 / moments.M00),
-                        (int)(moments.M01 / moments.M00));
+                double area = CvInvoke.ContourArea(contours[i]);
+                if (area > maxArea)
+                {
+                    maxArea = area;
+                    maxIndex = i;
+                }
+            }
+
+            if (maxIndex >= 0)
+            {
+                // Fit an ellipse to the contour
+                RotatedRect ellipse = CvInvoke.FitEllipse(contours[maxIndex]);
+
+                // Calculate the center of the ellipse (approximate ball center)
+                return new Point(Convert.ToInt32(ellipse.Center.X), Convert.ToInt32(ellipse.Center.Y));
             }
 
             throw new Exception("Ball not found in image");
