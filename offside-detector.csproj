@@ -99,8 +99,5 @@
     </PackageReference>
     <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\..\..\..\Utilities\C# lib\cvextern.dll" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
