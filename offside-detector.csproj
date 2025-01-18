@@ -52,10 +52,17 @@
     <Compile Include="Display.Designer.cs">
       <DependentUpon>Display.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Goal.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScoreTrackerDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScoreTrackerDisplay.Designer.cs">
+      <DependentUpon>ScoreTrackerDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\ImageProcessor.cs" />
     <Compile Include="Services\OffsideDetector.cs" />
     <EmbeddedResource Include="Display.resx">
@@ -71,6 +78,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="ScoreTrackerDisplay.resx">
+      <DependentUpon>ScoreTrackerDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

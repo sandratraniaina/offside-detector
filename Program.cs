@@ -1,4 +1,5 @@
-﻿using System;
+﻿using offside_detector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace offside_checker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Display());
+            Application.Run(new ScoreTrackerDisplay());
         }
     }
 }
