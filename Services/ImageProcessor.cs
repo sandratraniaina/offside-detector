@@ -215,5 +215,110 @@ namespace offside_detector.Services
                 return bitmap;
             }
         }
+
+        public List<Goal> DetectGoals()
+        {
+            var goals = new List<Goal>();
+
+            // Define goal detection boundaries
+            int imageWidth = _originalImage.Width;
+            int imageHeight = _originalImage.Height;
+            int leftBoundary = (int)(imageWidth * 0.2);  // 20% from left
+            int rightBoundary = (int)(imageWidth * 0.8); // 20% from right
+
+            // Detect contours
+            var contours = DetectGoalContours();
+
+            // Process detected contours
+            foreach (var contour in contours)
+            {
+                if (IsValidGoal(contour, imageHeight))
+                {
+                    // Check if goal is on left side
+                    if (contour.X < leftBoundary)
+                    {
+                        goals.Add(new Goal
+                        {
+                            PositionX = contour.X,
+                            PositionY = contour.Y,
+                            Width = contour.Width,
+                            Height = contour.Height
+                        });
+                    }
+                    // Check if goal is on right side
+                    else if (contour.X + contour.Width > rightBoundary)
+                    {
+                        goals.Add(new Goal
+                        {
+                            PositionX = contour.X,
+                            PositionY = contour.Y,
+                            Width = contour.Width,
+                            Height = contour.Height
+                        });
+                    }
+
+                    // Stop if we found both goals
+                    if (goals.Count == 2) break;
+                }
+            }
+
+            return goals;
+        }
+
+        private List<Rectangle> DetectGoalContours()
+        {
+            var contours = new List<Rectangle>();
+
+            // Convert to grayscale and apply edge detection
+            var grayImage = new Mat();
+            var cannyOutput = new Mat();
+            CvInvoke.CvtColor(_originalImage, grayImage, ColorConversion.Bgr2Gray);
+            CvInvoke.Canny(grayImage, cannyOutput, 100, 200);
+
+            // Find contours
+            var contourVectors = new VectorOfVectorOfPoint();
+            var hierarchy = new Mat();
+            CvInvoke.FindContours(
+                cannyOutput,
+                contourVectors,
+                hierarchy,
+                RetrType.Tree,
+                ChainApproxMethod.ChainApproxSimple);
+
+            // Convert contours to rectangles
+            for (int i = 0; i < contourVectors.Size; i++)
+            {
+                Rectangle boundingRect = CvInvoke.BoundingRectangle(contourVectors[i]);
+                contours.Add(boundingRect);
+            }
+
+            return contours;
+        }
+
+        private bool IsValidGoal(Rectangle contour, int imageHeight)
+        {
+            const int MinWidth = 50;   // Minimum goal width
+            const int MinHeight = 50;  // Minimum goal height
+            int maxHeight = imageHeight / 2;  // Maximum height (50% of image height)
+
+            return contour.Width >= MinWidth &&
+                   contour.Height >= MinHeight &&
+                   contour.Height <= maxHeight;
+        }
+
+        public Bitmap DrawGoalsOnImage(Bitmap image, List<Goal> goals)
+        {
+            using (Graphics g = Graphics.FromImage(image))
+            {
+                Pen pen = new Pen(Color.Red, 2); // You can customize the color and width of the rectangle
+                foreach (var goal in goals)
+                {
+                    Rectangle goalRect = new Rectangle(goal.PositionX, goal.PositionY, goal.Width, goal.Height);
+                    g.DrawRectangle(pen, goalRect);
+                }
+            }
+
+            return image;
+        }
     }
 }
