@@ -69,6 +69,7 @@
     <Compile Include="Forms\ScoreTrackerDisplay.Designer.cs">
       <DependentUpon>ScoreTrackerDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\ImageAnalyzer.cs" />
     <Compile Include="Services\ImageProcessor.cs" />
     <Compile Include="Services\OffsideDetector.cs" />
     <EmbeddedResource Include="Forms\OffsideDetectorDisplay.resx">
