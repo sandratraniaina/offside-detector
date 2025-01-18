@@ -57,6 +57,11 @@ namespace offside_checker
 
             image = _imageProcessor.DrawTeamArrow(image, teamA, ballPosition);
             image = _imageProcessor.DrawTeamArrow(image, teamB, ballPosition);
+
+            MessageBox.Show($"Detected goals: {_imageProcessor.DetectGoals().Count}");
+
+            image = _imageProcessor.DrawGoalsOnImage(image, _imageProcessor.DetectGoals());
+
             this.outputBox.Image = image;
         }
 
