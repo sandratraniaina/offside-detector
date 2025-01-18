@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using offside_checker.Forms;
+
 namespace offside_checker
 {
     internal static class Program
@@ -17,7 +19,7 @@ namespace offside_checker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ScoreTrackerDisplay());
+            Application.Run(new OffsideDetectorDisplay());
         }
     }
 }

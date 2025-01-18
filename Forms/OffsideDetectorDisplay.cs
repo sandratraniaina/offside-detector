@@ -10,16 +10,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace offside_checker
+namespace offside_checker.Forms
 {
-    public partial class Display : Form
+    public partial class OffsideDetectorDisplay : Form
     {
 
         private String _imagePath;
         private ImageProcessor _imageProcessor;
         private OffsideDetector _offsideDetector = new OffsideDetector();
 
-        public Display()
+        public OffsideDetectorDisplay()
         {
             InitializeComponent();
         }
