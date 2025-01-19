@@ -2,85 +2,150 @@
 using offside_detector.Services;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Emgu.CV.Structure;
 
 namespace offside_detector
 {
     public partial class ScoreTrackerDisplay : Form
     {
-        private String _beforeImagePath;
-        private String _afterImagePath;
+        private const string IMAGE_FILTER = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png|All files (*.*)|*.*";
+
+        private readonly Team _teamA;
+        private readonly Team _teamB;
+        private string _beforeImagePath;
+        private string _afterImagePath;
         private ScoreTracker _scoreTracker;
 
-        Team teamA = new Team(), teamB = new Team();
+        // HSV color ranges for team detection
+        private static readonly Hsv TeamAMinColor = new Hsv(0, 200, 200);
+        private static readonly Hsv TeamAMaxColor = new Hsv(10, 255, 255);
+        private static readonly Hsv TeamBMinColor = new Hsv(100, 150, 50);
+        private static readonly Hsv TeamBMaxColor = new Hsv(140, 255, 255);
+
         public ScoreTrackerDisplay()
         {
             InitializeComponent();
+            _teamA = new Team();
+            _teamB = new Team();
+            InitializeScoreDisplay();
+        }
+
+        private void InitializeScoreDisplay()
+        {
+            teamAScore.Text = "0";
+            teamBScore.Text = "0";
         }
 
         private void beforeImageButto_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png|All files (*.*)|*.*";
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            var imagePath = SelectImage();
+            if (!string.IsNullOrEmpty(imagePath))
             {
-                _beforeImagePath = openFileDialog.FileName;
-                this.beforeImageBox.Image = Image.FromFile(_beforeImagePath);
+                _beforeImagePath = imagePath;
+                DisplayImage(beforeImageBox, imagePath);
             }
         }
 
         private void afterImageButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png|All files (*.*)|*.*";
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            var imagePath = SelectImage();
+            if (!string.IsNullOrEmpty(imagePath))
             {
-                _afterImagePath = openFileDialog.FileName;
-                this.afterImageBox.Image = Image.FromFile(_afterImagePath);
+                _afterImagePath = imagePath;
+                DisplayImage(afterImageBox, imagePath);
             }
         }
 
         private void processImageButton_Click(object sender, EventArgs e)
         {
-            if (this._beforeImagePath == null || this._afterImagePath == null)
+            if (!ValidateImages())
             {
-                MessageBox.Show("Please, provide all images");
+                ShowError("Please, provide all images");
                 return;
             }
-            _scoreTracker = new ScoreTracker();
 
-            var temp = new ImageProcessor(_beforeImagePath);
+            ProcessImages();
+            UpdateScoreDisplay();
+        }
 
-            int aScore = teamA.Score;
-            int bScore = teamB.Score;
+        private string SelectImage()
+        {
+            using (var openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = IMAGE_FILTER;
+                return openFileDialog.ShowDialog() == DialogResult.OK ? openFileDialog.FileName : null;
+            }
+        }
 
-            teamA = temp.DetectTeam(new Emgu.CV.Structure.Hsv(0, 200, 200), new Emgu.CV.Structure.Hsv(10, 255, 255));
-            teamB = temp.DetectTeam(new Emgu.CV.Structure.Hsv(100, 150, 50), new Emgu.CV.Structure.Hsv(140, 255, 255));
-
-            teamA.Score = aScore;
-            teamB.Score = bScore;
-
+        private void DisplayImage(PictureBox pictureBox, string imagePath)
+        {
             try
             {
-                _scoreTracker.CheckGoalScored(_beforeImagePath, _afterImagePath, new List<Team> { teamB, teamA });
+                pictureBox.Image = Image.FromFile(imagePath);
             }
-            catch (Exception exc)
+            catch (Exception ex)
             {
-                MessageBox.Show(exc.Message);
+                ShowError($"Error loading image: {ex.Message}");
             }
-            finally
+        }
+
+        private bool ValidateImages()
+        {
+            return !string.IsNullOrEmpty(_beforeImagePath) && !string.IsNullOrEmpty(_afterImagePath);
+        }
+
+        private void ProcessImages()
+        {
+            try
             {
-                this.teamAScore.Text = $"{teamA.Score}";
-                this.teamBScore.Text = $"{teamB.Score}";
+                _scoreTracker = new ScoreTracker();
+                var imageProcessor = new ImageProcessor(_beforeImagePath);
+
+                // Store current scores
+                var teamACurrentScore = _teamA.Score;
+                var teamBCurrentScore = _teamB.Score;
+
+                // Detect teams
+                UpdateTeamDetection(imageProcessor);
+
+                // Restore scores
+                _teamA.Score = teamACurrentScore;
+                _teamB.Score = teamBCurrentScore;
+
+                // Process goal detection
+                ProcessGoalDetection();
             }
+            catch (Exception ex)
+            {
+                ShowError(ex.Message);
+            }
+        }
+
+        private void UpdateTeamDetection(ImageProcessor imageProcessor)
+        {
+            var detectedTeamA = imageProcessor.DetectTeam(TeamAMinColor, TeamAMaxColor);
+            var detectedTeamB = imageProcessor.DetectTeam(TeamBMinColor, TeamBMaxColor);
+
+            _teamA.Players = detectedTeamA.Players;
+            _teamB.Players = detectedTeamB.Players;
+        }
+
+        private void ProcessGoalDetection()
+        {
+            _scoreTracker.CheckGoalScored(_beforeImagePath, _afterImagePath, new List<Team> { _teamB, _teamA });
+        }
+
+        private void UpdateScoreDisplay()
+        {
+            teamAScore.Text = _teamA.Score.ToString();
+            teamBScore.Text = _teamB.Score.ToString();
+        }
+
+        private void ShowError(string message)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
