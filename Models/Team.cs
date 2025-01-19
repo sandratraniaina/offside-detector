@@ -17,6 +17,7 @@ namespace offside_detector.Models
         private Player lastDefender;
         private Goal goal;
         private AttackDirection direction;
+        private int score;
 
         public List<Player> Players { get => _players; set => _players = value; }
         public Player GoalKeeper { get => goalKeeper; set => goalKeeper = value; }
@@ -25,6 +26,8 @@ namespace offside_detector.Models
         public Hsv MaxColor { get => maxColor; set => maxColor = value; }
         public Player LastDefender { get => lastDefender; set => lastDefender = value; }
         public AttackDirection Direction { get => direction; set => direction = value; }
+        public Goal Goal { get => goal; set => goal = value; }
+        public int Score { get => score; set => score = value; }
     }
 
     public enum AttackDirection
