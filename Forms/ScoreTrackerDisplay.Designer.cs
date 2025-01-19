@@ -123,6 +123,7 @@
             this.beforeImageButto.Text = "Select Before Image";
             this.beforeImageButto.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.beforeImageButto.UseVisualStyleBackColor = true;
+            this.beforeImageButto.Click += new System.EventHandler(this.beforeImageButto_Click);
             // 
             // afterImageButton
             // 
@@ -133,6 +134,7 @@
             this.afterImageButton.Text = "Select After Image";
             this.afterImageButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.afterImageButton.UseVisualStyleBackColor = true;
+            this.afterImageButton.Click += new System.EventHandler(this.afterImageButton_Click);
             // 
             // processImageButton
             // 
