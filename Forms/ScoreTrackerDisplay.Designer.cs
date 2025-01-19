@@ -32,7 +32,7 @@
             this.afterImageBox = new System.Windows.Forms.PictureBox();
             this.teamALabel = new System.Windows.Forms.Label();
             this.teamAScore = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.teamBScore = new System.Windows.Forms.Label();
             this.dash = new System.Windows.Forms.Label();
             this.teamBLabel = new System.Windows.Forms.Label();
             this.beforeImageButto = new System.Windows.Forms.Button();
@@ -84,15 +84,15 @@
             this.teamAScore.TabIndex = 5;
             this.teamAScore.Text = "0";
             // 
-            // label1
+            // teamBScore
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(701, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 63);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "0";
+            this.teamBScore.AutoSize = true;
+            this.teamBScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.teamBScore.Location = new System.Drawing.Point(701, 25);
+            this.teamBScore.Name = "teamBScore";
+            this.teamBScore.Size = new System.Drawing.Size(58, 63);
+            this.teamBScore.TabIndex = 6;
+            this.teamBScore.Text = "0";
             // 
             // dash
             // 
@@ -145,6 +145,7 @@
             this.processImageButton.Text = "Process Images";
             this.processImageButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.processImageButton.UseVisualStyleBackColor = true;
+            this.processImageButton.Click += new System.EventHandler(this.processImageButton_Click);
             // 
             // ScoreTrackerDisplay
             // 
@@ -156,7 +157,7 @@
             this.Controls.Add(this.beforeImageButto);
             this.Controls.Add(this.teamBLabel);
             this.Controls.Add(this.dash);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.teamBScore);
             this.Controls.Add(this.teamAScore);
             this.Controls.Add(this.teamALabel);
             this.Controls.Add(this.afterImageBox);
@@ -177,7 +178,7 @@
         private System.Windows.Forms.PictureBox afterImageBox;
         private System.Windows.Forms.Label teamALabel;
         private System.Windows.Forms.Label teamAScore;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label teamBScore;
         private System.Windows.Forms.Label dash;
         private System.Windows.Forms.Label teamBLabel;
         private System.Windows.Forms.Button beforeImageButto;
