@@ -33,7 +33,6 @@ namespace offside_detector
             _teamA = new Team();
             _teamB = new Team();
             CheckForPreviousState();
-            InitializeScoreDisplay();
         }
 
         private void CheckForPreviousState()
@@ -70,12 +69,6 @@ namespace offside_detector
             {
                 ShowError($"Error loading previous state: {ex.Message}");
             }
-        }
-
-        private void InitializeScoreDisplay()
-        {
-            teamAScore.Text = "0";
-            teamBScore.Text = "0";
         }
 
         private void beforeImageButto_Click(object sender, EventArgs e)
