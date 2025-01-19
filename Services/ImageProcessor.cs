@@ -210,7 +210,7 @@ namespace offside_detector.Services
         {
             if (team.LastDefender != null)
             {
-                return DrawVerticalLineOnBitmap(bitmap, new Point(Convert.ToInt32(team.Direction == AttackDirection.Right ? team.LastDefender.Point.X + team.LastDefender.Radius : team.LastDefender.Point.X - team.LastDefender.Radius), 0), new MCvScalar(0, 194, 234), thickness: 4);
+                return DrawVerticalLineOnBitmap(bitmap, new Point(Convert.ToInt32(team.Direction != AttackDirection.Right ? team.LastDefender.Point.X + team.LastDefender.Radius : team.LastDefender.Point.X - team.LastDefender.Radius), 0), new MCvScalar(0, 194, 234), thickness: 4);
             }
             else
             {
