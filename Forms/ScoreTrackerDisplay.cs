@@ -24,12 +24,52 @@ namespace offside_detector
         private static readonly Hsv TeamBMinColor = new Hsv(100, 150, 50);
         private static readonly Hsv TeamBMaxColor = new Hsv(140, 255, 255);
 
+        private readonly GameStateService _gameStateService;
+
         public ScoreTrackerDisplay()
         {
             InitializeComponent();
+            _gameStateService = new GameStateService();
             _teamA = new Team();
             _teamB = new Team();
+            CheckForPreviousState();
             InitializeScoreDisplay();
+        }
+
+        private void CheckForPreviousState()
+        {
+            if (_gameStateService.HasSavedState())
+            {
+                var result = MessageBox.Show(
+                    "Previous match in progress. Would you like to continue?",
+                    "Load Previous Match",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    LoadPreviousState();
+                }
+                else
+                {
+                    _gameStateService.ResetState();
+                }
+            }
+        }
+
+        private void LoadPreviousState()
+        {
+            try
+            {
+                var matchState = _gameStateService.LoadState();
+                _teamA.Score = matchState.TeamAScore;
+                _teamB.Score = matchState.TeamBScore;
+                UpdateScoreDisplay();
+            }
+            catch (Exception ex)
+            {
+                ShowError($"Error loading previous state: {ex.Message}");
+            }
         }
 
         private void InitializeScoreDisplay()
@@ -102,6 +142,7 @@ namespace offside_detector
             {
                 _scoreTracker = new ScoreTracker();
                 var imageProcessor = new ImageProcessor(_beforeImagePath);
+                var ballPositionBefore = imageProcessor.DetectBall();
 
                 // Store current scores
                 var teamACurrentScore = _teamA.Score;
@@ -115,7 +156,21 @@ namespace offside_detector
                 _teamB.Score = teamBCurrentScore;
 
                 // Process goal detection
-                ProcessGoalDetection();
+                try
+                {
+                    ProcessGoalDetection();
+
+                    // If we get here, a goal was scored (determine which team scored)
+                    var scoringTeam = _teamA.Score > teamACurrentScore ? _teamA : _teamB;
+
+                    // Save the scoring event
+                    _gameStateService.SaveScoringEvent(scoringTeam, ballPositionBefore);
+                }
+                catch (Exception ex)
+                {
+                    // Goal was not scored or was invalid
+                    ShowError(ex.Message);
+                }
             }
             catch (Exception ex)
             {
