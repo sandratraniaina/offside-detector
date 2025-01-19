@@ -54,8 +54,8 @@ namespace offside_detector.Services
             // Check offside for attacking team players
             foreach (var player in attackingTeam.Players)
             {
-                if (player != nearestPlayer) // Ignore the ball holder
-                {
+                //if (player != nearestPlayer) // Ignore the ball holder
+                //{
                     if (isAttackingRight && player.Point.X > lastDefender.Point.X)
                     {
                         player.PlayerStatus = PlayerStatus.OFFSIDE;
@@ -72,7 +72,7 @@ namespace offside_detector.Services
                     {
                         player.PlayerStatus = PlayerStatus.NORMAL;
                     }
-                }
+                //}
             }
         }
 
