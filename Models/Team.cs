@@ -15,6 +15,7 @@ namespace offside_detector.Models
         private Player goalKeeper;
         private Player playerWithBall;
         private Player lastDefender;
+        private Goal goal;
         private bool isAttackRight;
 
         public List<Player> Players { get => _players; set => _players = value; }
