@@ -25,22 +25,32 @@ namespace offside_detector.Services
             var beforeKickProcessor = new ImageProcessor(beforeKickImagePath);
             var ballPositionBefore = beforeKickProcessor.DetectBall();
 
+            // Process after kick image
+            var afterKickProcessor = new ImageProcessor(afterKickImagePath);
+            var ballPositionAfter = afterKickProcessor.DetectBall();
+            var goals = afterKickProcessor.DetectGoals();
+
+            // Assign goals to teams based on position (left/right)
+            foreach (var team in teams)
+            {
+                // Find the appropriate goal for each team
+                team.Goal = goals.FirstOrDefault(g =>
+                    (team.Direction == AttackDirection.Right && g.PositionX > 400) ||
+                    (team.Direction == AttackDirection.Left && g.PositionX < 400));
+            }
+
             // Check for offside in the before kick image
             _offsideDetector.DetectOffside(teams, ballPositionBefore);
 
             // Get attacking team (team with the ball)
             var attackingTeam = teams.First(t => t.PlayerWithBall != null);
+            var defendingTeam = teams.First(t => t.PlayerWithBall == null);
 
             // Only check if the player with the ball is offside
             if (attackingTeam.PlayerWithBall.PlayerStatus == PlayerStatus.OFFSIDE)
             {
                 throw new Exception("Goal not permitted. The attacking player is offside");
             }
-
-            // Process after kick image
-            var afterKickProcessor = new ImageProcessor(afterKickImagePath);
-            var ballPositionAfter = afterKickProcessor.DetectBall();
-            var goals = afterKickProcessor.DetectGoals();
 
             // Check if ball is in either goal
             foreach (var goal in goals)
@@ -52,9 +62,9 @@ namespace offside_detector.Services
 
                     //if (isCorrectGoal)
                     //{
-                        // Increment the attacking team's score
-                        attackingTeam.Score++;
-                        return true;
+                    // Increment the attacking team's score
+                    attackingTeam.Score++;
+                    return true;
                     //}
                 }
             }
