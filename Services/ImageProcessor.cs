@@ -225,8 +225,8 @@ namespace offside_detector.Services
             // Define goal detection boundaries
             int imageWidth = _originalImage.Width;
             int imageHeight = _originalImage.Height;
-            int leftBoundary = (int)(imageWidth * 0.2);  // 20% from left
-            int rightBoundary = (int)(imageWidth * 0.8); // 20% from right
+            int leftBoundary = (int)(imageWidth * 0.3);  // 20% from left
+            int rightBoundary = (int)(imageWidth * 0.7); // 20% from right
 
             // Detect contours
             var contours = DetectGoalContours();
@@ -260,7 +260,7 @@ namespace offside_detector.Services
                     }
 
                     // Stop if we found both goals
-                    if (goals.Count == 2) break;
+                    //if (goals.Count == 2) break;
                 }
             }
 
