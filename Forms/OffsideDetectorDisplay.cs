@@ -39,17 +39,11 @@ namespace offside_checker.Forms
         private void button2_Click(object sender, EventArgs e)
         {
             _imageProcessor = new ImageProcessor(_imagePath);
-            //_imageAnalyzer = new ImageAnalyzer(_imageProcessor.GetOriginalImage());
 
             var teamA = _imageProcessor.DetectTeam(new Emgu.CV.Structure.Hsv(0, 200, 200), new Emgu.CV.Structure.Hsv(10, 255, 255));
             var teamB = _imageProcessor.DetectTeam(new Emgu.CV.Structure.Hsv(100, 150, 50), new Emgu.CV.Structure.Hsv(140, 255, 255));
 
             var ballPosition = _imageProcessor.DetectBall();
-                
-            //string message = $"Here are the teams: teamA: {teamA.Players.Count}, teamB: {teamB.Players.Count}";
-            //string message = $"Here is the ball: {ballPosition.Point.X}";
-
-            //MessageBox.Show(message, "Message Title", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             _offsideDetector.DetectOffside(new List<Team> { teamB, teamA }, ballPosition); 
             var image = _imageProcessor.DrawPlayerStatus(teamA, teamB);
@@ -59,10 +53,6 @@ namespace offside_checker.Forms
 
             image = _imageProcessor.DrawTeamArrow(image, teamA, ballPosition);
             image = _imageProcessor.DrawTeamArrow(image, teamB, ballPosition);
-
-            MessageBox.Show($"Detected goals: {_imageProcessor.DetectGoals().Count}");
-
-            image = _imageProcessor.DrawGoalsOnImage(image, _imageProcessor.DetectGoals());
 
             this.outputBox.Image = image;
         }
