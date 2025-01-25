@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using offside_detector;
+using System;
 using System.Windows.Forms;
 
 namespace offside_checker
@@ -16,7 +14,7 @@ namespace offside_checker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Display());
+            Application.Run(new MainForm());
         }
     }
 }

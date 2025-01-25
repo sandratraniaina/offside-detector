@@ -10,7 +10,7 @@ namespace offside_detector.Services
 {
     public class OffsideDetector
     {
-        public void DetectOffside(List<Team> teams, Point ballPosition, double rightmostXPosition)
+        public void DetectOffside(List<Team> teams, Point ballPosition)
         {
             // Find the player nearest to the ball
             var nearestPlayer = teams
@@ -35,6 +35,9 @@ namespace offside_detector.Services
             var attackingTeam = teams.First(team => team.Players.Contains(nearestPlayer));
             var defendingTeam = teams.First(team => !team.Players.Contains(nearestPlayer));
 
+            // Set PlayerWithBall for the attacking team
+            attackingTeam.PlayerWithBall = nearestPlayer;
+
             // Find the last defender for the defending team
             var lastDefender = defendingTeam.Players
                 .Where(player => player != defendingTeam.GoalKeeper) // Exclude goalkeeper
@@ -44,13 +47,15 @@ namespace offside_detector.Services
 
             bool isAttackingRight = attackingTeam != teamWithRightmostPlayer;
 
-            defendingTeam.IsAttackRight = isAttackingRight;
-            attackingTeam.IsAttackRight = isAttackingRight;
+            // Set attack directions based on the determined direction
+            defendingTeam.Direction = isAttackingRight ? AttackDirection.Left : AttackDirection.Right;
+            attackingTeam.Direction = isAttackingRight ? AttackDirection.Right : AttackDirection.Left;
+
             // Check offside for attacking team players
             foreach (var player in attackingTeam.Players)
             {
-                if (player != nearestPlayer) // Ignore the ball holder
-                {
+                //if (player != nearestPlayer) // Ignore the ball holder
+                //{
                     if (isAttackingRight && player.Point.X > lastDefender.Point.X)
                     {
                         player.PlayerStatus = PlayerStatus.OFFSIDE;
@@ -58,15 +63,16 @@ namespace offside_detector.Services
                     else if (!isAttackingRight && player.Point.X < lastDefender.Point.X)
                     {
                         player.PlayerStatus = PlayerStatus.OFFSIDE;
-                    }else if (isAttackingRight && player.Point.X >= ballPosition.X)
-                    {
-                        player.PlayerStatus = PlayerStatus.NORMAL;
-                    }else if (!isAttackingRight && player.Point.X <= ballPosition.X)
+                    }
+                    else if (isAttackingRight && player.Point.X >= ballPosition.X)
                     {
                         player.PlayerStatus = PlayerStatus.NORMAL;
                     }
-
-                }
+                    else if (!isAttackingRight && player.Point.X <= ballPosition.X)
+                    {
+                        player.PlayerStatus = PlayerStatus.NORMAL;
+                    }
+                //}
             }
         }
 

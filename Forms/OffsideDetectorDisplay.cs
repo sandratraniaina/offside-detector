@@ -10,16 +10,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace offside_checker
+namespace offside_checker.Forms
 {
-    public partial class Display : Form
+    public partial class OffsideDetectorDisplay : Form
     {
 
         private String _imagePath;
         private ImageProcessor _imageProcessor;
         private OffsideDetector _offsideDetector = new OffsideDetector();
 
-        public Display()
+        public OffsideDetectorDisplay()
         {
             InitializeComponent();
         }
@@ -39,6 +39,8 @@ namespace offside_checker
         private void button2_Click(object sender, EventArgs e)
         {
             _imageProcessor = new ImageProcessor(_imagePath);
+            //_imageAnalyzer = new ImageAnalyzer(_imageProcessor.GetOriginalImage());
+
             var teamA = _imageProcessor.DetectTeam(new Emgu.CV.Structure.Hsv(0, 200, 200), new Emgu.CV.Structure.Hsv(10, 255, 255));
             var teamB = _imageProcessor.DetectTeam(new Emgu.CV.Structure.Hsv(100, 150, 50), new Emgu.CV.Structure.Hsv(140, 255, 255));
 
@@ -49,7 +51,7 @@ namespace offside_checker
 
             //MessageBox.Show(message, "Message Title", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            _offsideDetector.DetectOffside(new List<Team> { teamB, teamA }, ballPosition, Image.FromFile(_imagePath).Width); 
+            _offsideDetector.DetectOffside(new List<Team> { teamB, teamA }, ballPosition); 
             var image = _imageProcessor.DrawPlayerStatus(teamA, teamB);
 
             image = _imageProcessor.DrawLastDefenderLine(teamB,  image);
@@ -57,6 +59,11 @@ namespace offside_checker
 
             image = _imageProcessor.DrawTeamArrow(image, teamA, ballPosition);
             image = _imageProcessor.DrawTeamArrow(image, teamB, ballPosition);
+
+            MessageBox.Show($"Detected goals: {_imageProcessor.DetectGoals().Count}");
+
+            image = _imageProcessor.DrawGoalsOnImage(image, _imageProcessor.DetectGoals());
+
             this.outputBox.Image = image;
         }
 

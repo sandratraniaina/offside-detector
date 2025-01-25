@@ -1,6 +1,6 @@
-﻿namespace offside_checker
+﻿namespace offside_checker.Forms
 {
-    partial class Display
+    partial class OffsideDetectorDisplay
     {
         /// <summary>
         /// Required designer variable.
